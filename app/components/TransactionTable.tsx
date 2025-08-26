@@ -57,9 +57,10 @@ const TransactionTable = ({
         </TableHeader>
         <TableBody>
           {transactions.map((transaction) => {
+            const currentUserAccount = "surafelaraya";
             const isComing =
               transaction.sender?.account === transaction.receiver?.account ||
-              transaction.receiver?.account === "CURRENT_USER";
+              transaction.receiver?.account === currentUserAccount;
             return (
               <TableRow
                 key={transaction.id}

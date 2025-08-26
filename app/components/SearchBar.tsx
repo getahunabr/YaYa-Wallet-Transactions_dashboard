@@ -3,25 +3,32 @@
 import { getTransactions, searchTransactions } from "@/lib/actions/yaya";
 import React, { useState } from "react";
 
-const SearchBar = ({ onResults }: { onResults: (results: any[]) => void }) => {
+interface SearchBarProps {
+  transactions: any[]; // all transactions
+  onResults: (results: any[]) => void;
+}
+const SearchBar = ({ transactions, onResults }: SearchBarProps) => {
   const [loading, setLoading] = useState(false);
+  const [query, setQuery] = useState(""); // keep track of input
 
   const handleSearch = async (query: string) => {
     setLoading(true);
     try {
       if (!query.trim()) {
-        const data = await getTransactions(1);
+        const data = await getTransactions(1); // show first page if empty
         onResults(data?.data || []);
         return;
       }
-      // search by all feild
-      const result = await searchTransactions({
-        id: query,
-        sender: query,
-        receiver: query,
-        cause: query,
-      });
-      onResults(result?.data || []);
+
+      // If query is a display name with parentheses, extract the account inside
+      const accountQueryMatch = query.match(/\(([^)]+)\)$/);
+      const normalizedQuery = accountQueryMatch
+        ? accountQueryMatch[1]
+        : query.trim();
+
+      // Call the server API to search across all transactions
+      const result = await searchTransactions(normalizedQuery);
+      onResults(result?.data || []); // display the server-side results
     } catch (error) {
       console.error("Search error:", error);
       onResults([]);
@@ -30,25 +37,24 @@ const SearchBar = ({ onResults }: { onResults: (results: any[]) => void }) => {
     }
   };
   return (
-    <form
-      onSubmit={async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        const query = formData.get("query") as string;
-        handleSearch(query);
-      }}
-      className="flex items-center space-x-2"
-    >
+    <div className="flex items-center space-x-2">
       <input
         type="text"
+        value={query}
+        onChange={(e) => {
+          setQuery(e.target.value);
+        }}
         name="query"
         placeholder="Search by sender,receiver,cause and Id"
         className="border rounded px-2 py-1 w-64"
       />
-      <button className="bg-blue-600 text-white px-3 py-1 rounded ">
+      <button
+        onClick={() => handleSearch(query)}
+        className="bg-red-50 text-black px-3 py-1 rounded "
+      >
         Search
       </button>
-    </form>
+    </div>
   );
 };
 

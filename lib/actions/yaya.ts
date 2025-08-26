@@ -51,24 +51,13 @@ export async function getTransactions(page: number = 1) {
   console.log(data);
   return data;
 }
-export async function searchTransactions(query: {
-  sender?: string;
-  receiver?: string;
-  cause?: string;
-  id?: string;
-}) {
+export async function searchTransactions(query: string) {
   try {
     const endpoint = `/api/en/transaction/search`;
     const url = `https://sandbox.yayawallet.com${endpoint}`;
     const method = "POST";
-    // const body = JSON.stringify({ query });
 
-    const body = JSON.stringify({
-      sender: query.sender || "",
-      receiver: query.receiver || "",
-      cause: query.cause || "",
-      id: query.id || "",
-    });
+    const body = JSON.stringify({ query });
 
     const timestamp = getTimestamp();
     const signature = getSignature(

@@ -3,6 +3,8 @@ import { getTransactions } from "@/lib/actions/yaya";
 import SearchBar from "./components/SearchBar";
 import TransactionTable from "./components/TransactionTable";
 import { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   const [transactions, setTransactions] = useState<any[]>([]);
@@ -33,18 +35,33 @@ export default function Home() {
   }
 
   return (
-    <main className="p-6">
-      <h1 className="text-4xl font-bold mb-4 text-center">
-        YaYa Wallet Transactions
-      </h1>
-      <SearchBar onResults={setTransactions} />
-
-      <TransactionTable
-        transactions={transactions}
-        totalPages={totalPages}
-        currentPage={currentPage}
-        onPageChange={fetchPage}
-      />
+    <main className=" bg-gray-50 flex flex-col items-center px-4 py-6">
+      <header className="w-full max-w-5xl text-center mb-8">
+        <div className="fixed top-4 left-4">
+          <Link href="/">
+            <Image src="/logo.svg" alt="logo" height={100} width={100} />
+          </Link>
+        </div>
+        <h1 className="text-4xl font-bold mb-4 text-center">
+          YaYa Wallet Transactions
+        </h1>
+        <p className="text-gray-500 text-sm sm:text-base">
+          View, search, and manage your latest wallet transactions
+        </p>
+      </header>
+      <div className="w-full flex justify-end px-6 py-4 bg-white shadow">
+        <div className="w-full max-w-3xl">
+          <SearchBar transactions={transactions} onResults={setTransactions} />
+        </div>
+      </div>
+      <section className=" w-full  bg-white shadow-md rounded-2xl p-4 sm:p-6">
+        <TransactionTable
+          transactions={transactions}
+          totalPages={totalPages}
+          currentPage={currentPage}
+          onPageChange={fetchPage}
+        />
+      </section>
     </main>
   );
 }
