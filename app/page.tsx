@@ -38,8 +38,14 @@ export default function Home() {
     <main className=" bg-gray-50 flex flex-col items-center px-4 py-6">
       <header className="w-full max-w-5xl text-center mb-8">
         <div className="fixed top-4 left-4">
-          <Link href="/">
-            <Image src="/logo.svg" alt="logo" height={100} width={100} />
+          <Link href="/" className="shrink-0">
+            <Image
+              src="/logo.svg"
+              alt="logo"
+              height={80}
+              width={80}
+              className="h-auto w-20 sm:w-24"
+            />
           </Link>
         </div>
         <h1 className="text-4xl font-bold mb-4 text-center">
