@@ -133,8 +133,4 @@ GitHub
 
 ---
 
-👉 Just create a new file in your project root called **`README.md`** and paste this in.
-
-Do you also want me to include **example usage screenshots** (like `public/demo.png`) and link them in the README so HR sees visuals immediately?
-
 ---
