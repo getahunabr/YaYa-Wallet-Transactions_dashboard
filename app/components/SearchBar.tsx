@@ -11,13 +11,13 @@ interface SearchBarProps {
 }
 const SearchBar = ({ transactions, onResults }: SearchBarProps) => {
   const [loading, setLoading] = useState(false);
-  const [query, setQuery] = useState(""); // keep track of input
+  const [query, setQuery] = useState("");
 
   const handleSearch = async (query: string) => {
     setLoading(true);
     try {
       if (!query.trim()) {
-        const data = await getTransactions(1); // show first page if empty
+        const data = await getTransactions(1);
         onResults(data?.data || []);
         return;
       }
@@ -38,6 +38,7 @@ const SearchBar = ({ transactions, onResults }: SearchBarProps) => {
       setLoading(false);
     }
   };
+
   return (
     <div className="flex items-center space-x-2">
       <input
