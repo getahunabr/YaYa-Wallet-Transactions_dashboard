@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 "use client";
 import { getTransactions } from "@/lib/actions/yaya";
 import SearchBar from "./components/SearchBar";
